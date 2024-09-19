@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "node --env-file=.env index.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "@atproto/api": "^0.13.7"
+  }
+}
