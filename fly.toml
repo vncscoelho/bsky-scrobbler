@@ -1,0 +1,2 @@
+app = "bsky-scrobbler"
+console_command = "npm run start"
