@@ -21,20 +21,18 @@ try {
 async function track() {
   const nowPlaying = await fetch(
     `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json`
-  ).then(({ recenttracks }) => {
-    const current = recenttracks.track.find((t) => t?.["@attr"].nowplaying);
+  )
+    .json()
+    .then(({ recenttracks }) => {
+      const current = recenttracks.track.find((t) => t?.["@attr"]?.nowplaying);
 
-    return current
-      ? `🎧 ${current.artist["#text"]} - ${current.name}`
-      : "viniciuscoelho.com";
-  });
+      return current ? `🎧 ${current.artist["#text"]} - ${current.name}` : null;
+    });
 
   console.log("Tracking: " + nowPlaying);
 
   await agent.upsertProfile((existingProfile) => {
-    console.warn(existingProfile);
-
-    existingProfile.description = nowPlaying;
+    existingProfile.description = nowPlaying ?? "";
 
     return existingProfile;
   });
