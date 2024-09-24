@@ -13,12 +13,12 @@ try {
     password: BSKY_PASSWORD,
   });
 
-  setInterval(track, 1000 * 60 * 2);
+  setInterval(() => track(agent), 1000 * 60 * 2);
 } catch (e) {
   console.log(e);
 }
 
-async function track() {
+async function track(agent) {
   const recentTracks = await fetch(
     `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json`
   );
