@@ -19,15 +19,15 @@ try {
 }
 
 async function track() {
-  const nowPlaying = await fetch(
+  const recentTracks = await fetch(
     `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json`
-  )
-    .json()
-    .then(({ recenttracks }) => {
-      const current = recenttracks.track.find((t) => t?.["@attr"]?.nowplaying);
+  );
 
-      return current ? `🎧 ${current.artist["#text"]} - ${current.name}` : null;
-    });
+  const nowPlaying = recentTracks.json().then(({ recenttracks }) => {
+    const current = recenttracks.track.find((t) => t?.["@attr"]?.nowplaying);
+
+    return current ? `🎧 ${current.artist["#text"]} - ${current.name}` : null;
+  });
 
   console.log("Tracking: " + nowPlaying);
 
