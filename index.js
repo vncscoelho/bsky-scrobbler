@@ -13,6 +13,8 @@ try {
     password: BSKY_PASSWORD,
   });
 
+  track(agent);
+
   setInterval(() => track(agent), 1000 * 60 * 2);
 } catch (e) {
   console.log(e);
@@ -23,7 +25,7 @@ async function track(agent) {
     `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json`
   );
 
-  const nowPlaying = recentTracks.json().then(({ recenttracks }) => {
+  const nowPlaying = await recentTracks.json().then(({ recenttracks }) => {
     const current = recenttracks.track.find((t) => t?.["@attr"]?.nowplaying);
 
     return current ? `🎧 ${current.artist["#text"]} - ${current.name}` : null;
