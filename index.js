@@ -26,13 +26,16 @@ async function track(agent) {
   );
 
   const nowPlaying = await recentTracks.json().then(({ recenttracks }) => {
+    const lastfmurl = "https://www.last.fm/user/vncscoelho";
     if (!recenttracks) {
-      return;
+      return lastfmurl;
     }
 
     const current = recenttracks.track.find((t) => t?.["@attr"]?.nowplaying);
 
-    return current ? `🎧 ${current.artist["#text"]} - ${current.name}` : null;
+    return current
+      ? `🎧 ${current.artist["#text"]} - ${current.name} \n ${lastfmurl}`
+      : null;
   });
 
   console.log("Tracking: " + nowPlaying);
