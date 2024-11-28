@@ -15,7 +15,7 @@ try {
 
   track(agent);
 
-  setInterval(() => track(agent), 1000 * 60 * 2);
+  setInterval(() => track(agent), 2000 * 60 * 2);
 } catch (e) {
   console.log(e);
 }
@@ -26,6 +26,10 @@ async function track(agent) {
   );
 
   const nowPlaying = await recentTracks.json().then(({ recenttracks }) => {
+    if (!recenttracks) {
+      return;
+    }
+
     const current = recenttracks.track.find((t) => t?.["@attr"]?.nowplaying);
 
     return current ? `🎧 ${current.artist["#text"]} - ${current.name}` : null;
